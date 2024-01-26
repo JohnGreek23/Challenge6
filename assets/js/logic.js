@@ -1,5 +1,5 @@
-// Define your quiz questions and answers in questions.js
 // Import the questions array from questions.js
+import questions from './questions.js';
 
 const startButton = document.getElementById("start");
 const timerElement = document.getElementById("time");
