@@ -39,7 +39,7 @@ The Coding Quiz App is a web-based quiz application designed to test your knowle
 
 The Coding Quiz App is built using the following technologies:
 
-- HTML5
+- HTML
 - CSS
 - JavaScript
 
