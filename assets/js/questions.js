@@ -1,5 +1,5 @@
-// Define your quiz questions and answer choices
-const questions = [
+// Define your quiz questions and answer choices as a global variable
+window.questions = [
     {
       question: "Commonly used data types DO NOT Include:",
       choices: ["Strings", "Booleans", "Alerts", "Numbers"],
@@ -16,7 +16,3 @@ const questions = [
       correctIndex: 3, // Index of the correct answer (4th choice, which is "All of the above")
     },
   ];
-  
-  // Export the questions array for use in logic.js
-  export default questions;
-  
