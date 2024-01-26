@@ -1,6 +1,3 @@
-// Import the questions array from questions.js
-import questions from './questions.js';
-
 const startButton = document.getElementById("start");
 const timerElement = document.getElementById("time");
 const questionTitleElement = document.getElementById("question-title");
@@ -12,6 +9,7 @@ const initialsInput = document.getElementById("initials");
 const submitButton = document.getElementById("submit");
 let currentQuestionIndex = 0;
 let timeLeft = 60; // Set the initial time
+let timerInterval; // Variable to hold the timer interval
 
 // Event listener for starting the quiz
 startButton.addEventListener("click", startQuiz);
@@ -21,39 +19,45 @@ function startQuiz() {
   startButton.style.display = "none";
   timerElement.textContent = timeLeft;
   startTimer();
-  showQuestion();
+  // Remove the "hide" class from the questions div to display it
+  document.getElementById("questions").classList.remove("hide");
+  showNextQuestion(); // Updated to show the first question
 }
 
 // Function to start the timer
 function startTimer() {
-  const timerInterval = setInterval(function () {
+  timerInterval = setInterval(function () {
     timeLeft--;
     timerElement.textContent = timeLeft;
 
-    if (timeLeft <= 0 || currentQuestionIndex >= questions.length) {
+    if (timeLeft <= 0 || currentQuestionIndex >= window.questions.length) {
       clearInterval(timerInterval);
       endQuiz();
     }
   }, 1000);
 }
 
-// Function to display a question
-function showQuestion() {
-  const question = questions[currentQuestionIndex];
-  questionTitleElement.textContent = question.question;
-  choicesElement.innerHTML = "";
+// Function to display the next question
+function showNextQuestion() {
+  if (currentQuestionIndex < window.questions.length) {
+    const question = window.questions[currentQuestionIndex];
+    questionTitleElement.textContent = question.question;
+    choicesElement.innerHTML = "";
 
-  question.choices.forEach((choice, index) => {
-    const choiceButton = document.createElement("button");
-    choiceButton.textContent = choice;
-    choiceButton.addEventListener("click", () => checkAnswer(index));
-    choicesElement.appendChild(choiceButton);
-  });
+    question.choices.forEach((choice, index) => {
+      const choiceButton = document.createElement("button");
+      choiceButton.textContent = choice;
+      choiceButton.addEventListener("click", () => checkAnswer(index));
+      choicesElement.appendChild(choiceButton);
+    });
+  } else {
+    endQuiz();
+  }
 }
 
 // Function to check the user's answer
 function checkAnswer(selectedIndex) {
-  const question = questions[currentQuestionIndex];
+  const question = window.questions[currentQuestionIndex];
 
   if (question.correctIndex === selectedIndex) {
     feedbackElement.textContent = "Correct!";
@@ -64,8 +68,8 @@ function checkAnswer(selectedIndex) {
 
   currentQuestionIndex++;
 
-  if (currentQuestionIndex < questions.length) {
-    showQuestion();
+  if (currentQuestionIndex < window.questions.length) {
+    showNextQuestion();
   } else {
     endQuiz();
   }
